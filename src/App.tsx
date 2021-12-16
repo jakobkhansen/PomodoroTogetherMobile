@@ -8,30 +8,19 @@
  * @format
  */
 
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+    Text, View
 } from 'react-native';
+import { Join } from './join/Join';
 
-import io from "socket.io-client";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
 
 
 const App = () => {
-  return <View><Text>Hello World</Text></View>
+  return <NavigationContainer><Join /></NavigationContainer>
 };
 
 
