@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Text, TextInput, View} from 'react-native';
 import tailwind from 'tailwind-rn';
+import {BACKEND_URL} from '@env'
 
 export function Join() {
   return (
