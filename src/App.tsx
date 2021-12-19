@@ -13,14 +13,22 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {Text, View} from 'react-native';
 import {Join} from './join/Join';
+import { Session } from './timer/Session';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Join: undefined;
+  Session: { displayName: string, roomName : string };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Join" component={Join} />
+        <Stack.Screen name="Session" component={Session} />
       </Stack.Navigator>
     </NavigationContainer>
   );
