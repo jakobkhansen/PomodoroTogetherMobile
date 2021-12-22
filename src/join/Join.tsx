@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Text, TextInput, View} from 'react-native';
 import tailwind from 'tailwind-rn';
-import {BACKEND_URL} from '@env';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-export function Join({navigation}: NativeStackScreenProps<{}>) {
+export function Join({navigation}: NativeStackScreenProps<RootStackParamList, 'Join'>) {
   const [displayName, setDisplayName] = useState('');
   const [roomName, setRoomName] = useState('');
 
