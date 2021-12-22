@@ -8,11 +8,10 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Join} from './join/Join';
+import { Join } from './join/Join';
 import { Session } from './timer/Session';
 
 export type RootStackParamList = {

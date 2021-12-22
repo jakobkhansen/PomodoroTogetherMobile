@@ -13,7 +13,9 @@ type SessionState =
   | undefined
   | {users: string[]; clock: {timer: number; state: number}};
 
-export function Session({route, navigation}: Props) {
+// For now, render entire pomodoro clock page
+// TODO refactor this to load other components instead
+export function Session({route}: Props) {
   const {displayName, roomName} = route.params;
   const [sessionState, setSessionState] = useState<SessionState>();
 
@@ -33,11 +35,11 @@ export function Session({route, navigation}: Props) {
   function renderTimer() {
     if (sessionState !== undefined) {
       return (
-        <View>
-          <Text style={tailwind('text-black')}>
-            {JSON.stringify(sessionState)}
-          </Text>
-          <PomodoroTimer {...sessionState.clock}></PomodoroTimer>
+        <View style={tailwind('h-full')}>
+          <Text>{JSON.stringify(sessionState)}</Text>
+          <View style={tailwind('flex-1 justify-center')}>
+            <PomodoroTimer {...sessionState.clock}></PomodoroTimer>
+          </View>
         </View>
       );
     } else {
