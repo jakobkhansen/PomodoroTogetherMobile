@@ -6,6 +6,7 @@ import {io} from 'socket.io-client';
 import {RootStackParamList} from '../App';
 import {PomodoroTimer} from './PomodoroTimer';
 import tailwind from 'tailwind-rn';
+import { SocketManager } from './SocketManager';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
@@ -19,26 +20,28 @@ export function Session({route}: Props) {
   const {displayName, roomName} = route.params;
   const [sessionState, setSessionState] = useState<SessionState>();
 
+
   useEffect(() => {
-    const socket = io(BACKEND_URL);
+    const socket = new SocketManager(io(BACKEND_URL));
     socket.emit('session join', roomName, displayName);
     socket.on('session update', sessionState => {
       setSessionState(sessionState);
     });
-    console.log(displayName, roomName, BACKEND_URL, sessionState);
 
     return function cleanup() {
       socket.disconnect();
     };
   }, []);
 
+  const socketManager = SocketManager.getInstance()
+
   function renderTimer() {
-    if (sessionState !== undefined) {
+    if (sessionState && socketManager) {
       return (
         <View style={tailwind('h-full')}>
           <Text>{JSON.stringify(sessionState)}</Text>
           <View style={tailwind('flex-1 justify-center')}>
-            <PomodoroTimer {...sessionState.clock}></PomodoroTimer>
+            <PomodoroTimer socket={socketManager} {...sessionState.clock}></PomodoroTimer>
           </View>
         </View>
       );

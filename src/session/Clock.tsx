@@ -23,6 +23,7 @@ const pausedTimerStates = [
 type ClockProps = {
   initialTime: number;
   state: number;
+  onPress : () => any
 };
 
 const styles = StyleSheet.create({
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
 
 
 // Responsibility: Display and tick time
-export function Clock({initialTime, state}: ClockProps) {
+export function Clock({initialTime, state, onPress}: ClockProps) {
   const [time, setTime] = useState(initialTime);
 
 
@@ -44,11 +45,9 @@ export function Clock({initialTime, state}: ClockProps) {
   }, [initialTime, state]);
 
   useEffect(() => {
-    console.log("state", state)
     if (pausedTimerStates.includes(state)) {
       return
     }
-    console.log("Starting interval")
 
     const id = setInterval(() => {
       if (time <= 0) {
@@ -63,7 +62,7 @@ export function Clock({initialTime, state}: ClockProps) {
   }, [time]);
 
   return (
-    <Text style={styles.clock}>
+    <Text onPress={onPress} style={styles.clock}>
       {secondsToTimeString(time)}
     </Text>
   );

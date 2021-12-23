@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Join } from './join/Join';
-import { Session } from './timer/Session';
+import { Session } from './session/Session';
 
 export type RootStackParamList = {
   Join: undefined;
