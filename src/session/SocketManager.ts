@@ -21,9 +21,12 @@ export class SocketManager {
   }
 
 
-  public pause() {
-    //this.emit('pause', '')
-    this.emit('pause')
+  public sendPause() {
+    this.socket.emit('session pause')
+  }
+
+  public sendUnpause() {
+    this.socket.emit('session unpause')
   }
 
   static getInstance() : SocketManager {

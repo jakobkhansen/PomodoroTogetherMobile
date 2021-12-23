@@ -33,15 +33,14 @@ export function Session({route}: Props) {
     };
   }, []);
 
-  const socketManager = SocketManager.getInstance()
 
   function renderTimer() {
-    if (sessionState && socketManager) {
+    if (sessionState) {
       return (
         <View style={tailwind('h-full')}>
           <Text>{JSON.stringify(sessionState)}</Text>
           <View style={tailwind('flex-1 justify-center')}>
-            <PomodoroTimer socket={socketManager} {...sessionState.clock}></PomodoroTimer>
+            <PomodoroTimer {...sessionState.clock}></PomodoroTimer>
           </View>
         </View>
       );

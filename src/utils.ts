@@ -10,3 +10,10 @@ export function updateStyle(style : any, field : any, value : any) {
   style[field] = value
   return style
 }
+export enum PomodoroState {
+  WORKING, // Main timer
+  WORKING_PAUSED, // Timer is paused
+  BREAK, // Break timer
+  BREAK_PAUSED, // Break timer paused
+  DONE, // Timer has finished, initial state
+}

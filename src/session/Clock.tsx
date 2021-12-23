@@ -1,69 +1,58 @@
 import {useEffect, useState} from 'react';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {secondsToTimeString, updateStyle} from '../utils';
-import tailwind from "tailwind-rn"
-import { RFValue } from 'react-native-responsive-fontsize';
-
-
-enum PomodoroState {
-  WORKING, // Main timer
-  WORKING_PAUSED, // Timer is paused
-  BREAK, // Break timer
-  BREAK_PAUSED, // Break timer paused
-  DONE, // Timer has finished, initial state
-}
-const runningTimerStates = [PomodoroState.WORKING, PomodoroState.BREAK];
-
-const pausedTimerStates = [
-  PomodoroState.WORKING_PAUSED,
-  PomodoroState.BREAK_PAUSED,
-];
+import {PomodoroState, secondsToTimeString, updateStyle} from '../utils';
+import tailwind from 'tailwind-rn';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {pausedTimerStates, runningTimerStates} from './PomodoroTimer';
 
 type ClockProps = {
   initialTime: number;
   state: number;
-  onPress : () => any
+  onPress: (state: PomodoroState) => any;
 };
 
 const styles = StyleSheet.create({
   clock: {
-    color: "black",
-    textAlign: "center",
-    fontSize: RFValue(100)
-  }
-})
-
+    color: 'black',
+    textAlign: 'center',
+    fontSize: RFValue(100),
+  },
+});
 
 // Responsibility: Display and tick time
 export function Clock({initialTime, state, onPress}: ClockProps) {
-  const [time, setTime] = useState(initialTime);
-
+  const [displayTime, setDisplayTime] = useState(0);
 
   useEffect(() => {
-    setTime(initialTime);
+    let currentTime = initialTime;
+    setDisplayTime(currentTime);
+
+
+    if (initialTime >= 0 && runningTimerStates.includes(state)) {
+      const id = setInterval(() => {
+        if (currentTime >= 0 && runningTimerStates.includes(state)) {
+          currentTime--;
+          setDisplayTime(currentTime);
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(id);
+      };
+    } else {
+      setDisplayTime(initialTime);
+    }
   }, [initialTime, state]);
 
-  useEffect(() => {
-    if (pausedTimerStates.includes(state)) {
-      return
-    }
-
-    const id = setInterval(() => {
-      if (time <= 0) {
-        clearInterval(id);
-        return;
-      }
-
-      setTime(prevTime => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(id);
-  }, [time]);
-
   return (
-    <Text onPress={onPress} style={styles.clock}>
-      {secondsToTimeString(time)}
+    <Text
+      onPress={() => {
+        onPress(state);
+      }}
+      style={styles.clock}
+    >
+      {secondsToTimeString(displayTime)}
     </Text>
   );
 }
