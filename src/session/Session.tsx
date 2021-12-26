@@ -6,7 +6,9 @@ import {io} from 'socket.io-client';
 import {RootStackParamList} from '../App';
 import {PomodoroTimer} from './PomodoroTimer';
 import tailwind from 'tailwind-rn';
-import { SocketManager } from './SocketManager';
+import {SocketManager} from './SocketManager';
+import {PomodoroState} from '../utils';
+import { TimePicker } from './TimePicker';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
@@ -20,7 +22,6 @@ export function Session({route}: Props) {
   const {displayName, roomName} = route.params;
   const [sessionState, setSessionState] = useState<SessionState>();
 
-
   useEffect(() => {
     const socket = new SocketManager(io(BACKEND_URL));
     socket.emit('session join', roomName, displayName);
@@ -33,17 +34,9 @@ export function Session({route}: Props) {
     };
   }, []);
 
-
-  function renderTimer() {
+  function renderIfReady() {
     if (sessionState) {
-      return (
-        <View style={tailwind('h-full')}>
-          <Text>{JSON.stringify(sessionState)}</Text>
-          <View style={tailwind('flex-1 justify-center')}>
-            <PomodoroTimer {...sessionState.clock}></PomodoroTimer>
-          </View>
-        </View>
-      );
+      return renderTimer();
     } else {
       return (
         <View style={tailwind('flex-1 justify-center')}>
@@ -53,5 +46,20 @@ export function Session({route}: Props) {
     }
   }
 
-  return renderTimer();
+  function renderTimer() {
+    if (sessionState?.clock.state == PomodoroState.DONE) {
+      return <TimePicker />
+    } else if (sessionState) {
+      return (
+        <View style={tailwind('h-full')}>
+          <Text>{JSON.stringify(sessionState)}</Text>
+          <View style={tailwind('flex-1 justify-center')}>
+            <PomodoroTimer {...sessionState?.clock}></PomodoroTimer>
+          </View>
+        </View>
+      );
+    }
+  }
+
+  return renderIfReady();
 }

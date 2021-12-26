@@ -1,6 +1,5 @@
 import React from 'react';
 import {View} from 'react-native';
-import tailwind from 'tailwind-rn';
 import { PomodoroState } from '../utils';
 import {Clock} from './Clock';
 import { SocketManager } from './SocketManager';

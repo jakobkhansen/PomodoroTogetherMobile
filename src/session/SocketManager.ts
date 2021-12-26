@@ -29,7 +29,12 @@ export class SocketManager {
     this.socket.emit('session unpause')
   }
 
+  public sendStart(seconds : number) {
+    this.socket.emit('session start', seconds)
+  }
+
   static getInstance() : SocketManager {
     return this.instance
   }
+
 }
