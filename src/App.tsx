@@ -15,7 +15,7 @@ import { Join } from './join/Join';
 import { Session } from './session/Session';
 
 export type RootStackParamList = {
-  Join: undefined;
+  'Pomodoro Together': undefined;
   Session: { displayName: string, roomName : string };
 };
 
@@ -26,7 +26,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Join" component={Join} />
+        <Stack.Screen name="Pomodoro Together" component={Join} />
         <Stack.Screen name="Session" component={Session} />
       </Stack.Navigator>
     </NavigationContainer>
