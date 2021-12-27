@@ -19,10 +19,22 @@ export enum PomodoroState {
   DONE, // Timer has finished, initial state
 }
 
-export const pickerOptions : Array<[number, string]> = [
-  [60 * 60, colors.green2],
-  [50 * 60, colors.blue2],
-  [25 * 60, colors.purple2],
-  [10 * 60, colors.orange2],
-  [1 * 60, colors.yellow2],
+export const defaultTimeOptions: number[] = [
+  60 * 60,
+  50 * 60,
+  40 * 60,
+  25 * 60,
+  15 * 60,
+  10 * 60,
+  5 * 60,
+  1 * 60,
+];
+
+export const colorOptions: string[] = [
+  colors.blue2,
+  colors.purple2,
+  colors.green2,
+  colors.orange2,
+  colors.yellow2,
+  colors.red3,
 ];

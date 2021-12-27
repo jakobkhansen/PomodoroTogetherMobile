@@ -22,19 +22,21 @@ export function TimePickerOption({
   // boxStyle.color = "blue"
   const styles = StyleSheet.create({
     boxStyle: {
-      padding: 32,
+      padding: 64,
       margin: 4,
-      backgroundColor: color
+      backgroundColor: color,
+      justifyContent: "center",
+      borderRadius: 2
     },
   });
   console.log(styles.boxStyle);
   return (
-    <TouchableOpacity style={tailwind('w-1/2')} onPress={onPress}>
-      <View style={styles.boxStyle}>
-        <Text style={tailwind('text-center text-white')}>
-          {secondsToMinutes(seconds)}
+    <View style={tailwind('w-1/2')} >
+      <TouchableOpacity style={styles.boxStyle} onPress={onPress}>
+        <Text style={tailwind('text-center text-white text-xl')}>
+          {secondsToMinutes(seconds)}m
         </Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 }
