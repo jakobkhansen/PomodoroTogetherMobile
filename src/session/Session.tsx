@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {BACKEND_URL} from '@env';
 import {io} from 'socket.io-client';
 import {RootStackParamList} from '../App';
@@ -8,10 +8,11 @@ import {PomodoroTimer} from './PomodoroTimer';
 import tailwind from 'tailwind-rn';
 import {SocketManager} from './SocketManager';
 import {PomodoroState} from '../utils';
-import { TimePicker } from './TimePicker';
-import { UserList } from './UserList';
+import {TimePicker} from './TimePicker';
+import {UserList} from './UserList';
+import { LoadingScreen } from '../components/LoadingScreen';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Session'>;
+type SessionProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
 type SessionState =
   | undefined
@@ -19,7 +20,7 @@ type SessionState =
 
 // For now, render entire pomodoro clock page
 // TODO refactor this to load other components instead
-export function Session({route}: Props) {
+export function Session({route}: SessionProps) : React.ReactElement {
   const {displayName, roomName} = route.params;
   const [sessionState, setSessionState] = useState<SessionState>();
 
@@ -35,21 +36,10 @@ export function Session({route}: Props) {
     };
   }, []);
 
-  function renderIfReady() {
-    if (sessionState) {
-      return renderTimer();
-    } else {
-      return (
-        <View style={tailwind('flex-1 justify-center')}>
-          <ActivityIndicator size="large" />
-        </View>
-      );
-    }
-  }
 
-  function renderTimer() {
+  function renderIfReady() : React.ReactElement {
     if (sessionState?.clock.state == PomodoroState.DONE) {
-      return <TimePicker />
+      return <TimePicker />;
     } else if (sessionState) {
       return (
         <View style={tailwind('h-full flex-1 justify-evenly')}>
@@ -60,6 +50,8 @@ export function Session({route}: Props) {
           <UserList users={sessionState.users} />
         </View>
       );
+    } else {
+      return <LoadingScreen />
     }
   }
 

@@ -1,11 +1,26 @@
 import {Text, View} from 'react-native';
-import React from 'react'
+import React from 'react';
 import tailwind from 'tailwind-rn';
 
-export function UserDisplay({username}: {username: string}) {
-  return (
-    <View style={tailwind('border rounded-full w-6 h-6 items-center')}>
-      <Text style={tailwind('text-black')}>{username.substring(0,1).toUpperCase()}</Text>
-    </View>
-  );
+type UserDisplayProps = {
+  username: string;
+  shortened?: boolean;
+};
+
+export function UserDisplay({username, shortened = false}: UserDisplayProps) {
+  if (!shortened) {
+    return (
+      <View style={tailwind('border rounded-full items-center m-0.5')}>
+        <Text style={tailwind('text-black px-4 py-2.5')}>{username}</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={tailwind('border rounded-full items-center m-0.5')}>
+        <Text style={tailwind('text-black px-2.5 py-1')}>
+          {username.substring(0, 1).toUpperCase()}
+        </Text>
+      </View>
+    );
+  }
 }

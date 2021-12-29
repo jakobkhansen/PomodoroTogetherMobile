@@ -4,7 +4,7 @@ import tailwind from 'tailwind-rn';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../App';
 
-export function Join({
+export function Home({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Pomodoro Together'>) {
   const [displayName, setDisplayName] = useState('');
