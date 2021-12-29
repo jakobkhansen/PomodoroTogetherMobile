@@ -10,7 +10,7 @@ import {SocketManager} from './SocketManager';
 import {PomodoroState} from '../utils';
 import {TimePicker} from './TimePicker';
 import {UserList} from './UserList';
-import { LoadingScreen } from '../components/LoadingScreen';
+import {LoadingScreen} from '../components/LoadingScreen';
 
 type SessionProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
@@ -20,7 +20,7 @@ type SessionState =
 
 // For now, render entire pomodoro clock page
 // TODO refactor this to load other components instead
-export function Session({route}: SessionProps) : React.ReactElement {
+export function Session({route}: SessionProps): React.ReactElement {
   const {displayName, roomName} = route.params;
   const [sessionState, setSessionState] = useState<SessionState>();
 
@@ -36,8 +36,7 @@ export function Session({route}: SessionProps) : React.ReactElement {
     };
   }, []);
 
-
-  function renderIfReady() : React.ReactElement {
+  function renderIfReady(): React.ReactElement {
     if (sessionState?.clock.state == PomodoroState.DONE) {
       return <TimePicker />;
     } else if (sessionState) {
@@ -50,9 +49,9 @@ export function Session({route}: SessionProps) : React.ReactElement {
           <UserList users={sessionState.users} />
         </View>
       );
-    } else {
-      return <LoadingScreen />
     }
+
+    return <LoadingScreen />;
   }
 
   return renderIfReady();
