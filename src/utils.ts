@@ -11,6 +11,11 @@ export function secondsToMinutes(seconds: number): number {
   return Math.floor(seconds / 60);
 }
 
+export function getDateSeconds() : number {
+  return (Date.now()) / 1000
+}
+
+
 export enum PomodoroState {
   WORKING, // Main timer
   WORKING_PAUSED, // Timer is paused
@@ -38,3 +43,5 @@ export const colorOptions: string[] = [
   colors.yellow2,
   colors.red3,
 ];
+
+

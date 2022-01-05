@@ -6,13 +6,15 @@ import { SocketManager } from './SocketManager';
 
 
 type PomodoroTimerProps = {
-  timer: number;
+  timestamp : number,
+  timeLeft : number,
   state: PomodoroState;
+  timeOffset: number
 };
 
 // Responsibility
 // Display clock, handle inputs for manipulating timer
-export function PomodoroTimer({timer, state}: PomodoroTimerProps) {
+export function PomodoroTimer({timestamp, timeLeft, timeOffset, state}: PomodoroTimerProps) {
   const socket = SocketManager.getInstance()
 
   function togglePause(state : PomodoroState) {
@@ -23,9 +25,14 @@ export function PomodoroTimer({timer, state}: PomodoroTimerProps) {
     }
   }
 
+  function stopTimer() {
+    socket.sendStop()
+  }
+
+
   return (
     <View>
-      <Clock onPress={togglePause} initialTime={timer} state={state}></Clock>
+      <Clock onPress={togglePause} onFinished={stopTimer} {...{timestamp, timeLeft, timeOffset, state}}></Clock>
     </View>
   );
 }

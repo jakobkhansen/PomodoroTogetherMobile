@@ -33,6 +33,10 @@ export class SocketManager {
     this.socket.emit('session start', seconds)
   }
 
+  public sendStop() {
+    this.socket.emit('session stop')
+  }
+
   static getInstance() : SocketManager {
     return this.instance
   }

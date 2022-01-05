@@ -1,15 +1,18 @@
 import {useEffect, useState} from 'react';
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {PomodoroState, secondsToTimeString, updateStyle} from '../utils';
+import {getDateSeconds, PomodoroState, secondsToTimeString} from '../utils';
 import tailwind from 'tailwind-rn';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {pausedTimerStates, runningTimerStates} from './PomodoroTimer';
 
 type ClockProps = {
-  initialTime: number;
-  state: number;
+  timestamp: number;
+  timeLeft: number;
+  state: PomodoroState;
+  timeOffset : number,
   onPress: (state: PomodoroState) => any;
+  onFinished : () => any;
 };
 
 const styles = StyleSheet.create({
@@ -21,29 +24,27 @@ const styles = StyleSheet.create({
 });
 
 // Responsibility: Display and tick time
-export function Clock({initialTime, state, onPress}: ClockProps) {
-  const [displayTime, setDisplayTime] = useState(0);
+export function Clock({timestamp, timeLeft, state, timeOffset, onPress, onFinished}: ClockProps) {
+  const [secondsPassed, setSecondsPassed] = useState(0);
 
   useEffect(() => {
-    let currentTime = initialTime;
-    setDisplayTime(currentTime);
-
-
-    if (initialTime >= 0 && runningTimerStates.includes(state)) {
+    if (runningTimerStates.includes(state)) {
       const id = setInterval(() => {
-        if (currentTime >= 0 && runningTimerStates.includes(state)) {
-          currentTime--;
-          setDisplayTime(currentTime);
-        }
+        setSecondsPassed(prevSec => prevSec + 1);
       }, 1000);
 
-      return () => {
-        clearInterval(id);
-      };
-    } else {
-      setDisplayTime(initialTime);
+      return () => clearInterval(id);
     }
-  }, [initialTime, state]);
+  }, [timestamp, timeLeft, state]);
+
+  function secondsToDisplay() : number {
+    const display = Math.floor(timeLeft - ((getDateSeconds() - timeOffset) - timestamp))
+
+    if (display < 0) {
+      onFinished()
+    }
+    return display
+  }
 
   return (
     <Text
@@ -52,7 +53,7 @@ export function Clock({initialTime, state, onPress}: ClockProps) {
       }}
       style={styles.clock}
     >
-      {secondsToTimeString(displayTime)}
+      {secondsToTimeString(secondsToDisplay())}
     </Text>
   );
 }

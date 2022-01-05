@@ -7,7 +7,7 @@ import {RootStackParamList} from '../App';
 import {PomodoroTimer} from './PomodoroTimer';
 import tailwind from 'tailwind-rn';
 import {SocketManager} from './SocketManager';
-import {PomodoroState} from '../utils';
+import {getDateSeconds, PomodoroState} from '../utils';
 import {TimePicker} from './TimePicker';
 import {UserList} from './UserList';
 import {LoadingScreen} from '../components/LoadingScreen';
@@ -16,7 +16,7 @@ type SessionProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
 type SessionState =
   | undefined
-  | {users: string[]; clock: {timer: number; state: number}};
+| {users: string[]; clock: {timestamp : number, timeLeft : number, state : PomodoroState, timeOffset : number}};
 
 // For now, render entire pomodoro clock page
 // TODO refactor this to load other components instead
@@ -28,7 +28,7 @@ export function Session({route}: SessionProps): React.ReactElement {
     const socket = new SocketManager(io(BACKEND_URL));
     socket.emit('session join', roomName, displayName);
     socket.on('session update', sessionState => {
-      setSessionState(sessionState);
+      setSessionState({...sessionState, clock: {...sessionState.clock, timeOffset: (getDateSeconds() - sessionState.clock.timestamp)}});
     });
 
     return function cleanup() {
@@ -54,5 +54,6 @@ export function Session({route}: SessionProps): React.ReactElement {
     return <LoadingScreen />;
   }
 
+  console.log(sessionState)
   return renderIfReady();
 }

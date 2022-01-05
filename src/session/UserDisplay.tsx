@@ -1,10 +1,11 @@
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import tailwind from 'tailwind-rn';
 
 type UserDisplayProps = {
   username: string;
   shortened?: boolean;
+  color?: string;
 };
 
 export function UserDisplay({username, shortened = false}: UserDisplayProps) {
