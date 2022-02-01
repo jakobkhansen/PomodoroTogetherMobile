@@ -2,7 +2,7 @@
 
 A social pomodoro app for productivity.
 
-### Featuers
+### Features
 
 * Realtime synchronized pomodoro timer for groups.
 * Create, pause, increment timers, with both work and break mode.
