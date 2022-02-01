@@ -42,7 +42,6 @@ export function Session({route}: SessionProps): React.ReactElement {
     } else if (sessionState) {
       return (
         <View style={tailwind('h-full flex-1 justify-evenly')}>
-          <Text>{JSON.stringify(sessionState)}</Text>
           <View style={tailwind('flex-1 justify-center')}>
             <PomodoroTimer {...sessionState?.clock}></PomodoroTimer>
           </View>
