@@ -1,6 +1,13 @@
 # Pomodoro Together
 
-A social pomodoro app for productivity.
+A social pomodoro app for productivity. Create Pomodoro sessions which friends
+can join to use as a synchronized work timer.
+
+This is a WIP app, I will continue to develop this app when I have the
+time/motivation. It's currently an MVP with most functionality implemented, but
+not very styled or customizable.
+
+![Image](./images/screens.png)
 
 ### Features
 
